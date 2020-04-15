@@ -1,0 +1,71 @@
+---
+- name: Display Role Details.
+  debug:
+    msg:
+      - '===================================================================='
+      - 'constrict0r.aptitude'
+      - 'Wrapper for apt to install Debian packages.'
+      - '===================================================================='
+
+- name: Process apt packages.
+  debug:
+    msg:
+      - '--------------------------------------------------------------------'
+      - 'Processing apt packages ...'
+      - '--------------------------------------------------------------------'
+  when: unified is not variable_empty or unified_b is not variable_empty
+
+- name: Purge apt packages.
+  debug:
+    msg:
+      - '--------------------------------------------------------------------'
+      - 'Purging apt packages ...'
+      - '--------------------------------------------------------------------'
+  when: unified_b is not variable_empty
+
+- name: Purge packages.
+  apt:
+    name: "{{ unified_b }}"
+    state: absent
+    purge: true
+  register: result
+  retries: 2
+  until: result is success
+  become: true
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - unified_b is not variable_empty
+
+- name: Install apt packages.
+  debug:
+    msg:
+      - '--------------------------------------------------------------------'
+      - 'Installing apt packages ...'
+      - '--------------------------------------------------------------------'
+  when: not unified is variable_empty
+
+- name: Install packages.
+  apt:
+    name: "{{ unified }}"
+    state: present
+    install_recommends: false
+  register: result
+  retries: 2
+  until: result is success
+  become: true
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - unified is not variable_empty
+
+- name: Remove unused dependencies.
+  apt: autoremove=yes name=base
+  register: result
+  retries: 2
+  until: result is success
+  become: true
+  changed_when: false
+  when:
+    - not ansible_check_mode
+    - unified is not variable_empty or unified_b is not variable_empty

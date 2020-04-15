@@ -1,0 +1,32 @@
+@startuml
+'Use plantuml to view this file as an image: http://plantuml.com'
+start
+
+skinparam monochrome true
+
+:Apply validations;
+
+if (validations passed?) then (yes)
+
+  :Set unified = packages + loaded configuration;
+  :Set unified_b = purge_packages + loaded configuration;
+
+  :Update APT cache;
+
+  if (unified_b not empty?) then (yes)
+    :Purge packages;
+  else (no)
+  endif
+
+  if (unified not empty?) then (yes)
+    :Install packages;
+  else (no)
+  endif
+
+else (no)
+  :Show validation errors;
+endif
+
+end
+
+@enduml

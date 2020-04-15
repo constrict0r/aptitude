@@ -1,0 +1,58 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Setting up test environment.
+      debug:
+        msg:
+          - '==============================================================='
+          - 'Pre tasks'
+          - '==============================================================='
+
+    - name: Ensure requirements installed.
+      apt:
+        name:
+          - emacs
+          - jed
+          - python
+          - python-pip
+          - python-setuptools
+          - python3-pip
+          - python3-setuptools
+        state: present
+      changed_when: false
+
+    - name: Ensure Pip requirements installed.
+      pip:
+        name:
+          - flake8
+          - requests
+      become: false
+      changed_when: false
+
+  roles:
+    - role: aptitude
+      configuration: https://is.gd/DURNzh
+      packages: [jed]
+      packages_purge: [emacs]
+      upgrade: false
+
+  post_tasks:
+    - name: Run verification tests.
+      debug:
+        msg:
+          - '================================================================'
+          - 'Post tasks'
+          - '================================================================'
+
+    - name: Verify jed package is installed.
+      package_facts:
+        manager: auto
+      failed_when: "'jed' not in ansible_facts.packages"
+
+    - name: Verify emacs package is not installed.
+      package_facts:
+        manager: auto
+      failed_when: "'emacs' in ansible_facts.packages"

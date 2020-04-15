@@ -1,0 +1,9 @@
+---
+# Example configuration file.
+
+packages:
+  - gedit
+  - rolldice
+
+packages_purge:
+  - emacs

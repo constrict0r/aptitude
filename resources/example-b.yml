@@ -1,0 +1,5 @@
+---
+# Example configuration file.
+
+packages:
+  - jed
