@@ -34,10 +34,7 @@
 
   roles:
     - role: aptitude
-      configuration: https://is.gd/DURNzh
-      packages: [jed]
-      packages_purge: [emacs]
-      upgrade: false
+      configuration: https://is.gd/DfMmuf
 
   post_tasks:
     - name: Run verification tests.
@@ -47,12 +44,12 @@
           - 'Post tasks'
           - '================================================================'
 
-    - name: Verify jed package is installed.
+    - name: Verify emacs package is installed.
       package_facts:
         manager: auto
-      failed_when: "'jed' not in ansible_facts.packages"
+      failed_when: "'emacs' not in ansible_facts.packages"
 
-    - name: Verify emacs package is not installed.
+    - name: Verify gedit package is not installed.
       package_facts:
         manager: auto
-      failed_when: "'emacs' in ansible_facts.packages"
+      failed_when: "'gedit' in ansible_facts.packages"

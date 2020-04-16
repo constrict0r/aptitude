@@ -2,8 +2,8 @@
 # Example configuration file.
 
 packages:
-  - gedit
+  - emacs
   - rolldice
 
 packages_purge:
-  - emacs
+  - gedit
