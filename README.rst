@@ -183,7 +183,7 @@ This variable is empty by default.
            - rolldice
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages: [gedit, rolldice]}"
 
 
@@ -212,7 +212,7 @@ This variable is empty by default.
            - rolldice
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages_purge: [gedit, rolldice]}"
 
 
